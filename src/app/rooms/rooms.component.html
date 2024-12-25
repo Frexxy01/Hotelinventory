@@ -1,0 +1,55 @@
+{{priceFilter.value | json}}
+
+  <div [hidden]="hideRooms">
+    Number of rooms:
+    <div [ngStyle]="{'color': hasAvailableRooms() ? 'green' : 'red'}" 
+      [innerText]="rooms.availableRooms"></div>
+      <div>
+        Rooms:
+        {{ rooms.availableRooms ?? 'No rooms' }}
+      </div>
+  </div>
+
+
+<div *ngIf="error$ | async as msg">
+  A hiba: {{msg}}
+</div>
+
+<h1>Room count {{roomCount$ | async}}</h1>
+
+  <!-- {{roomList | json}} -->
+
+  <!-- {{rooms$ | async | json}} -->
+
+  <div *ngIf="roomSelected"> 
+    {{roomSelected | json}}
+  </div>
+
+  <div>
+    <input class="form-control" type="number" placeholder="Price" [formControl]="priceFilter">
+  </div>
+  
+  <div>
+    <button (click)="addRoom()">Add Room</button>
+    <button (click)="deleteRoom()">Delete Room</button>
+  </div>
+  <div>
+    <button (click)="editRoom()">Edit Room</button>
+  </div>
+
+  <router-outlet></router-outlet>
+
+  
+  <div *ngIf="roomList as rooms" >
+    <hotelinventoryapp-rooms-list 
+    [rooms]="rooms" 
+    [title]="title" 
+    [price]="priceFilter.value || 0"
+    (roomSelected)="selectParentRoom($event)"
+    ></hotelinventoryapp-rooms-list>
+  </div>
+
+  
+  <button (click)="toggle()">toggle</button> 
+
+
